@@ -1,0 +1,4 @@
+services:
+  tempstream:
+    image: tempstream-dev
+    build: .

@@ -1,0 +1,13 @@
+version: "2"
+
+sql:
+  - engine: "sqlite"
+    schema: "./cmd/tempstream/migrations"
+    queries: "./sql/links.sql"
+    gen:
+      go:
+        package: "db"
+        out: "./internal/repository/sqlc"
+        emit_json_tags: true
+        emit_interface: false
+        emit_exact_table_names: false
