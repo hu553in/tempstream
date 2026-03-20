@@ -380,12 +380,12 @@ func (b *Bot) menuText() string {
 		_, _ = fmt.Fprintf(&sb, "/new %s - create a %s link\n", ttl.String(), ttlLabel(ttl))
 	}
 
-	sb.WriteString("/newperm  - create a permanent link\n")
-	sb.WriteString("/active   - show active links\n")
-	sb.WriteString("/status   - show stream status\n")
-	sb.WriteString("/offlast  - disable the last link\n")
-	sb.WriteString("/off ID   - disable a link by ID\n")
-	sb.WriteString("/whoami   - show your chat ID")
+	sb.WriteString("/newperm - create a permanent link\n")
+	sb.WriteString("/active - show active links\n")
+	sb.WriteString("/status - show stream status\n")
+	sb.WriteString("/offlast - disable the last link\n")
+	sb.WriteString("/off ID - disable a link by ID\n")
+	sb.WriteString("/whoami - show your chat ID")
 
 	return sb.String()
 }
