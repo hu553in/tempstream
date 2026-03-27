@@ -1,4 +1,7 @@
 w.example.com, :80 {
 	encode gzip zstd
+
+	respond /healthz "ok" 200
+
 	reverse_proxy tempstream:8080
 }
