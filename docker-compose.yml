@@ -21,6 +21,7 @@ services:
   tempstream:
     <<: *common
     image: ghcr.io/hu553in/tempstream
+    user: "10001:10001"
     env_file:
       - .env
     depends_on:
