@@ -1,4 +1,4 @@
-# Code of Conduct - tempstream
+# Code of Conduct — tempstream
 
 ## Our Pledge
 

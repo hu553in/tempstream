@@ -21,8 +21,6 @@ It provides:
 The project is intentionally small. It is built as a pragmatic MVP: simple to run, predictable in production,
 and easy to reason about.
 
----
-
 ## What it does
 
 - Creates temporary or permanent watch links from Telegram
@@ -38,8 +36,6 @@ A typical operator flow looks like this:
 3. Create a watch link from Telegram.
 4. Open the generated URL in a browser.
 5. Disable the link when access should end.
-
----
 
 ## Components
 
@@ -81,8 +77,6 @@ MediaMTX:
 
 Caddy is the public entry point and reverse-proxies incoming HTTP traffic to the Go service.
 
----
-
 ## Environment variables
 
 | Name                        | Required              | Default       | Description                                                                                                             |
@@ -102,8 +96,6 @@ Caddy is the public entry point and reverse-proxies incoming HTTP traffic to the
 | `MEDIAMTX_PUBLISH_PASSWORD` | Yes in Docker Compose | –             | Password required for RTMP publishing to MediaMTX.                                                                      |
 
 See [.env.example](./.env.example) for a complete example.
-
----
 
 ## Local run
 
@@ -152,8 +144,6 @@ dist/tempstream
 
 You still need a reachable SQLite path, a Telegram bot token, and a running MediaMTX instance.
 
----
-
 ## Publishing a stream
 
 The configured MediaMTX path is `live/stream`:
@@ -167,8 +157,6 @@ Example:
 ```
 rtmp://192.168.1.42:1935/live/stream?user=publisher&pass=secret
 ```
-
----
 
 ## Watching a stream
 
@@ -186,8 +174,6 @@ The watch page:
 
 If the link expires or is disabled, playback stops and the page shows a clear error state.
 
----
-
 ## Development
 
 Useful commands:
@@ -200,8 +186,6 @@ make sqlc
 
 Migrations are embedded into the binary with `go:embed`, while `sqlc` uses the same migration directory on disk
 as the schema source.
-
----
 
 ## Stack
 
