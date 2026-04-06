@@ -9,10 +9,10 @@ ensure-env:
 	if [ ! -f .env ]; then cp .env.example .env; fi
 
 .PHONY: pre-commit
-pre-commit: lint build
+pre-commit: build lint check-deps
 
 .PHONY: check
-check: fmt lint build
+check: build fmt lint check-deps
 
 .PHONY: install-deps
 install-deps:
@@ -36,6 +36,10 @@ fmt:
 .PHONY: lint
 lint:
 	golangci-lint run
+
+.PHONY: check-deps
+check-deps: install-deps
+	go tool govulncheck ./...
 
 .PHONY: build
 build: install-deps
