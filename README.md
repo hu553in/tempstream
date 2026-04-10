@@ -5,7 +5,7 @@
 [![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/hu553in/tempstream)](https://github.com/hu553in/tempstream/blob/main/go.mod)
 
 - [License](./LICENSE)
-- [How to contribute](./CONTRIBUTING.md)
+- [Contributing](./CONTRIBUTING.md)
 - [Code of conduct](./CODE_OF_CONDUCT.md)
 
 tempstream is a small video access service for a single live stream.
