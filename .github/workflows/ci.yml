@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - '**'
+      - main
     tags:
       - 'v*'
   pull_request:
@@ -33,7 +33,7 @@ jobs:
           go-version-file: go.mod
 
   publish:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+    if: startsWith(github.ref, 'refs/heads/main')
     needs: [lint, vulncheck]
     uses: hu553in/common-things/.github/workflows/build-publish-docker.yml@main
     secrets: inherit
