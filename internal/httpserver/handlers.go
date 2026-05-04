@@ -110,7 +110,7 @@ func (h *Handlers) WatchPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
+	http.SetCookie(w, &http.Cookie{ // #nosec G124 -- Secure is configurable intentionally
 		Name:     watchSessionCookieName,
 		Value:    link.Token,
 		Path:     "/play/",
@@ -182,7 +182,7 @@ func copyRequestHeaders(src http.Header) http.Header {
 }
 
 func clearWatchCookie(w http.ResponseWriter, secure bool) {
-	http.SetCookie(w, &http.Cookie{
+	http.SetCookie(w, &http.Cookie{ // #nosec G124 -- Secure is configurable intentionally
 		Name:     watchSessionCookieName,
 		Value:    "",
 		Path:     "/play/",
