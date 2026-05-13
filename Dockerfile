@@ -25,8 +25,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
   apt-get update && \
   apt-get install -y --no-install-recommends \
   ca-certificates \
-  curl && \
-  rm -rf /var/lib/apt/lists/*
+  curl
 
 RUN groupadd --gid 10001 app \
   && useradd --uid 10001 --gid 10001 -M app \
