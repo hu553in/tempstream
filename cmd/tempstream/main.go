@@ -120,7 +120,7 @@ func run() error {
 
 	router := httpserver.NewRouter(handlers)
 
-	srv := newHTTPServer(cfg.HTTPAddr, log, router)
+	srv := newHTTPServer(cfg.HTTPAddr, cfg.HTTPTrustedProxyCount, log, router)
 
 	go func() {
 		log.Info("http server starting", slog.String("addr", cfg.HTTPAddr))
@@ -173,12 +173,17 @@ func accessLog(log *slog.Logger, next http.Handler) http.Handler {
 		recorder := &statusRecorder{ResponseWriter: w, statusCode: http.StatusOK}
 
 		next.ServeHTTP(recorder, r)
+		remoteAddr := r.RemoteAddr
+		if clientIP := middleware.GetClientIP(r.Context()); clientIP != "" {
+			remoteAddr = clientIP
+		}
+
 		log.InfoContext(r.Context(), "http request",
 			slog.String("request_id", middleware.GetReqID(r.Context())),
 			slog.String("method", r.Method),
 			slog.String("path", r.URL.Path),
 			slog.String("query", r.URL.RawQuery),
-			slog.String("remote_addr", r.RemoteAddr),
+			slog.String("remote_addr", remoteAddr),
 			slog.Int("status", recorder.statusCode),
 			slog.Int("bytes", recorder.bytesWritten),
 			slog.Duration("duration", time.Since(start)),
@@ -186,10 +191,15 @@ func accessLog(log *slog.Logger, next http.Handler) http.Handler {
 	})
 }
 
-func newHTTPServer(addr string, log *slog.Logger, handler http.Handler) *http.Server {
+func newHTTPServer(addr string, trustedProxyCount int, log *slog.Logger, handler http.Handler) *http.Server {
+	handler = accessLog(log, handler)
+	if trustedProxyCount > 0 {
+		handler = middleware.ClientIPFromXFFTrustedProxies(trustedProxyCount)(handler)
+	}
+
 	return &http.Server{
 		Addr:              addr,
-		Handler:           accessLog(log, handler),
+		Handler:           handler,
 		ReadTimeout:       httpReadTimeout,
 		ReadHeaderTimeout: httpReadHeaderTimeout,
 		WriteTimeout:      httpWriteTimeout,
