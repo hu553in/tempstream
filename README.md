@@ -79,6 +79,7 @@ Caddy is the public entry point and reverse-proxies incoming HTTP traffic to the
 | Name                        | Required              | Default       | Description                                                                                                             |
 | --------------------------- | --------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `HTTP_ADDR`                 | No                    | `:8080`       | HTTP listen address for the Go service.                                                                                 |
+| `HTTP_TRUSTED_PROXY_COUNT`  | No                    | `1`           | Number of trusted reverse proxies in front of the Go service for `X-Forwarded-For` parsing. Set `0` to disable it.      |
 | `BASE_URL`                  | Yes                   | -             | Public base URL used in generated watch links.                                                                          |
 | `DB_PATH`                   | No                    | `./db.sqlite` | SQLite database path. In Docker Compose, `/data/db.sqlite` is typically used.                                           |
 | `TELEGRAM_BOT_TOKEN`        | Yes                   | -             | Telegram bot token.                                                                                                     |

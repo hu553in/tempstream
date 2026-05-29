@@ -11,19 +11,20 @@ import (
 )
 
 type Config struct {
-	HTTPAddr        string          `env:"HTTP_ADDR"                      envDefault:":8080"`
-	BaseURL         string          `env:"BASE_URL,required"`
-	DBPath          string          `env:"DB_PATH"                        envDefault:"./db.sqlite"`
-	TelegramToken   string          `env:"TELEGRAM_BOT_TOKEN,required"`
-	AllowedChatIDs  []int64         `env:"ALLOWED_CHAT_IDS,required"`
-	MediaHLSBaseURL string          `env:"MEDIAMTX_HLS_BASE_URL,required"`
-	CookieSecure    bool            `env:"COOKIE_SECURE"                  envDefault:"true"`
-	DefaultLinkTTL  time.Duration   `env:"DEFAULT_LINK_TTL"               envDefault:"1h"`
-	LinkTTLOptions  string          `env:"LINK_TTL_OPTIONS"               envDefault:"30m,1h,3h"`
-	TimeZone        string          `env:"TIME_ZONE"                      envDefault:"UTC"`
-	LogLevel        string          `env:"LOG_LEVEL"                      envDefault:"info"`
-	Location        *time.Location  `env:"-"`
-	TTLButtons      []time.Duration `env:"-"`
+	HTTPAddr              string          `env:"HTTP_ADDR"                      envDefault:":8080"`
+	HTTPTrustedProxyCount int             `env:"HTTP_TRUSTED_PROXY_COUNT"       envDefault:"1"`
+	BaseURL               string          `env:"BASE_URL,required"`
+	DBPath                string          `env:"DB_PATH"                        envDefault:"./db.sqlite"`
+	TelegramToken         string          `env:"TELEGRAM_BOT_TOKEN,required"`
+	AllowedChatIDs        []int64         `env:"ALLOWED_CHAT_IDS,required"`
+	MediaHLSBaseURL       string          `env:"MEDIAMTX_HLS_BASE_URL,required"`
+	CookieSecure          bool            `env:"COOKIE_SECURE"                  envDefault:"true"`
+	DefaultLinkTTL        time.Duration   `env:"DEFAULT_LINK_TTL"               envDefault:"1h"`
+	LinkTTLOptions        string          `env:"LINK_TTL_OPTIONS"               envDefault:"30m,1h,3h"`
+	TimeZone              string          `env:"TIME_ZONE"                      envDefault:"UTC"`
+	LogLevel              string          `env:"LOG_LEVEL"                      envDefault:"info"`
+	Location              *time.Location  `env:"-"`
+	TTLButtons            []time.Duration `env:"-"`
 }
 
 func Load() (Config, error) {
@@ -42,6 +43,10 @@ func Load() (Config, error) {
 
 	if cfg.HTTPAddr == "" {
 		return Config{}, errors.New("HTTP_ADDR must not be empty")
+	}
+
+	if cfg.HTTPTrustedProxyCount < 0 {
+		return Config{}, errors.New("HTTP_TRUSTED_PROXY_COUNT must be >= 0")
 	}
 
 	if cfg.DBPath == "" {
