@@ -1,0 +1,31 @@
+logLevel: info
+
+rtmp: yes
+rtmpAddress: :1935
+
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: yes
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+
+webrtc: no
+rtsp: no
+srt: no
+
+paths:
+  live/stream:
+    source: publisher
+
+authInternalUsers:
+  - user: any
+    permissions:
+      - action: read
+        path: live/stream
+      - action: playback
+        path: live/stream
+  - permissions:
+      - action: publish
+        path: live/stream
