@@ -4,19 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hu553in/tempstream)](https://goreportcard.com/report/github.com/hu553in/tempstream)
 [![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/hu553in/tempstream)](https://github.com/hu553in/tempstream/blob/main/go.mod)
 
-- [License](./LICENSE)
-- [Contributing](./CONTRIBUTING.md)
-- [Code of conduct](./CODE_OF_CONDUCT.md)
-
 tempstream is a video access service for a single live stream.
-
-Core components:
-
-- a Telegram bot for operators
-- an HTTP service for watch links
-- MediaMTX for RTMP ingest and HLS output
-- Caddy as the public reverse proxy
-- SQLite for link storage
 
 ## What it does
 
@@ -25,6 +13,8 @@ Core components:
 - Exposes a watch page at `/live/stream/{token}`
 - Proxies HLS playback through `/play/*` after token validation
 - Accepts RTMP publishing through MediaMTX on `live/stream`
+- Stores links in SQLite
+- Runs as a Compose stack with the Go service, MediaMTX, and Caddy
 
 A typical operator flow looks like this:
 
@@ -34,11 +24,75 @@ A typical operator flow looks like this:
 4. Open the generated URL in a browser.
 5. Disable the link when access should end.
 
-## Components
+## Requirements
 
-### Telegram bot
+- Go 1.26+ for source builds
+- Docker and Docker Compose for the full stack
+- Telegram bot token
+- Telegram chat IDs allowed to control the bot
+- Public `BASE_URL` reachable by viewers
+- RTMP publisher credentials for MediaMTX
 
-The bot is the only admin interface. It supports:
+## Setup
+
+```bash
+make ensure-env
+```
+
+Fill in these values in `.env`:
+
+- `TELEGRAM_BOT_TOKEN`
+- `ALLOWED_CHAT_IDS`
+- `BASE_URL`
+- `MEDIAMTX_PUBLISH_USER`
+- `MEDIAMTX_PUBLISH_PASSWORD`
+
+For phone access on the same Wi-Fi, set `BASE_URL` to the machine's LAN IP and disable secure
+cookies for local HTTP:
+
+```env
+BASE_URL=http://192.168.1.42
+COOKIE_SECURE=false
+```
+
+## Configuration
+
+| Name                        | Required              | Default       | Description                                       |
+| --------------------------- | --------------------- | ------------- | ------------------------------------------------- |
+| `HTTP_ADDR`                 | No                    | `:8080`       | HTTP listen address for the Go service            |
+| `HTTP_TRUSTED_PROXY_COUNT`  | No                    | `1`           | Trusted reverse proxy count for `X-Forwarded-For` |
+| `BASE_URL`                  | Yes                   | -             | Public base URL used in generated watch links     |
+| `DB_PATH`                   | No                    | `./db.sqlite` | SQLite database path                              |
+| `TELEGRAM_BOT_TOKEN`        | Yes                   | -             | Telegram bot token                                |
+| `ALLOWED_CHAT_IDS`          | Yes                   | -             | Comma-separated Telegram chat IDs                 |
+| `MEDIAMTX_HLS_BASE_URL`     | Yes                   | -             | Internal HLS base URL for stream probing/playback |
+| `COOKIE_SECURE`             | No                    | `true`        | Marks playback cookies as `Secure`                |
+| `DEFAULT_LINK_TTL`          | No                    | `1h`          | Default temporary link duration                   |
+| `LINK_TTL_OPTIONS`          | No                    | `30m,1h,3h`   | Temporary link durations shown in Telegram        |
+| `TIME_ZONE`                 | No                    | `UTC`         | IANA time zone used in bot responses              |
+| `LOG_LEVEL`                 | No                    | `info`        | Log level for the Go service                      |
+| `MEDIAMTX_PUBLISH_USER`     | Yes in Docker Compose | -             | RTMP publish username                             |
+| `MEDIAMTX_PUBLISH_PASSWORD` | Yes in Docker Compose | -             | RTMP publish password                             |
+
+See `.env.example` for a complete example.
+
+## Usage
+
+Service commands:
+
+```bash
+make start
+make stop
+make restart
+```
+
+The Compose stack uses:
+
+- `tempstream` - Go HTTP service and Telegram bot
+- `mediamtx` - RTMP ingest and HLS output
+- `caddy` - public reverse proxy
+
+The bot is the operator interface:
 
 - `/new <duration>` for a temporary link
 - `/newperm` for a permanent link
@@ -50,100 +104,7 @@ The bot is the only admin interface. It supports:
 
 Links returned by the bot include a direct disable action.
 
-### HTTP service
-
-The Go service exposes:
-
-- `/healthz`
-- `/live/stream/{token}`
-- `/play/*`
-
-`/live/stream/{token}` validates the token, sets a session cookie for playback, and renders the
-watch page.
-
-`/play/*` validates the playback cookie again and proxies HLS traffic to MediaMTX.
-
-### MediaMTX
-
-MediaMTX:
-
-- accepts RTMP publishing
-- remuxes the stream to low-latency HLS
-- restricts publishing with username and password authentication
-
-### Caddy
-
-Caddy is the public entry point and reverse-proxies incoming HTTP traffic to the Go service.
-
-## Environment variables
-
-| Name                        | Required              | Default       | Description                                                                                                             |
-| --------------------------- | --------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `HTTP_ADDR`                 | No                    | `:8080`       | HTTP listen address for the Go service.                                                                                 |
-| `HTTP_TRUSTED_PROXY_COUNT`  | No                    | `1`           | Number of trusted reverse proxies in front of the Go service for `X-Forwarded-For` parsing. Set `0` to disable it.      |
-| `BASE_URL`                  | Yes                   | -             | Public base URL used in generated watch links.                                                                          |
-| `DB_PATH`                   | No                    | `./db.sqlite` | SQLite database path. In Docker Compose, `/data/db.sqlite` is typically used.                                           |
-| `TELEGRAM_BOT_TOKEN`        | Yes                   | -             | Telegram bot token.                                                                                                     |
-| `ALLOWED_CHAT_IDS`          | Yes                   | -             | Comma-separated list of Telegram chat IDs allowed to control the bot.                                                   |
-| `MEDIAMTX_HLS_BASE_URL`     | Yes                   | -             | Internal HLS base URL used by the Go service to probe stream health and proxy playback.                                 |
-| `COOKIE_SECURE`             | No                    | `true`        | Whether the playback cookie is marked `Secure`. Use `false` for plain local HTTP.                                       |
-| `DEFAULT_LINK_TTL`          | No                    | `1h`          | Default TTL used when a link is created with a zero duration internally.                                                |
-| `LINK_TTL_OPTIONS`          | No                    | `30m,1h,3h`   | Comma-separated list of temporary link durations shown in the Telegram bot. If empty, only permanent links are offered. |
-| `TIME_ZONE`                 | No                    | `UTC`         | IANA time zone used in bot responses, for example `UTC`, `Europe/Berlin`, or `Asia/Omsk`.                               |
-| `LOG_LEVEL`                 | No                    | `info`        | Log level for the Go service.                                                                                           |
-| `MEDIAMTX_PUBLISH_USER`     | Yes in Docker Compose | -             | Username required for RTMP publishing to MediaMTX.                                                                      |
-| `MEDIAMTX_PUBLISH_PASSWORD` | Yes in Docker Compose | -             | Password required for RTMP publishing to MediaMTX.                                                                      |
-
-See [.env.example](./.env.example) for a complete example.
-
-## Local run
-
-### Docker Compose
-
-1. Copy the example environment:
-
-```bash
-make ensure-env
-```
-
-2. Fill in:
-
-- `TELEGRAM_BOT_TOKEN`
-- `ALLOWED_CHAT_IDS`
-- `MEDIAMTX_PUBLISH_USER`
-- `MEDIAMTX_PUBLISH_PASSWORD`
-
-3. For phone access on the same Wi-Fi, set `BASE_URL` to the machine's LAN IP:
-
-```env
-BASE_URL=http://192.168.1.42
-COOKIE_SECURE=false
-```
-
-4. Start the stack:
-
-```bash
-make start
-```
-
-After startup:
-
-- the Go service is available behind Caddy
-- MediaMTX listens for RTMP on `:1935`
-- MediaMTX serves HLS on `:8888`
-
-### Without Docker
-
-To run only the Go service:
-
-```bash
-make build
-dist/tempstream
-```
-
-A reachable SQLite path, a Telegram bot token, and a running MediaMTX instance are still required.
-
-## Publishing a stream
+## Streaming
 
 The configured MediaMTX path is `live/stream`:
 
@@ -157,44 +118,52 @@ Example:
 rtmp://192.168.1.42:1935/live/stream?user=publisher&pass=secret
 ```
 
-## Watching a stream
-
-Create a link from Telegram, then open the returned URL in a browser:
+Create a link from Telegram, then open the returned URL:
 
 ```text
 http://HOST/live/stream/<token>
 ```
 
-The watch page:
+## Runtime behavior
 
-- validates the token
-- sets a playback cookie
-- loads HLS from `/play/index.m3u8`
+- The Go service exposes `/healthz`, `/live/stream/{token}`, and `/play/*`
+- `/live/stream/{token}` validates the token, sets a playback cookie, and renders the watch page
+- `/play/*` validates the playback cookie again and proxies HLS traffic to MediaMTX
+- MediaMTX accepts RTMP and remuxes the stream to low-latency HLS
+- Caddy is the public entry point and reverse-proxies traffic to the Go service
+- In Docker Compose, SQLite data lives in the `tempstream_data` volume at `/data/db.sqlite`
+- If a link expires or is disabled, playback stops and the page shows a clear error state
 
-If the link expires or is disabled, playback stops and the page shows a clear error state.
-
-## Development
-
-Useful commands:
+Without Docker, build only the Go service:
 
 ```bash
 make build
+dist/tempstream
+```
+
+A reachable SQLite path, a Telegram bot token, and a running MediaMTX instance are still required.
+
+## Development
+
+```bash
+make install-deps
+make build
 make check
+```
+
+Focused checks:
+
+```bash
+make fmt
+make lint
+make check-deps
+```
+
+Generated SQL:
+
+```bash
 make sqlc
 ```
 
 Migrations are embedded into the binary with `go:embed`, while `sqlc` uses the same migration
 directory on disk as the schema source.
-
-## Tech stack
-
-- Go 1.26
-- SQLite
-- Docker Compose
-- [Caddy](https://caddyserver.com/)
-- [MediaMTX](https://github.com/bluenviron/mediamtx)
-- [chi](https://go-chi.io/)
-- [goose](https://pressly.github.io/goose/)
-- [sqlc](https://sqlc.dev/)
-- [go-telegram/bot](https://github.com/go-telegram/bot)
-- [caarlos0/env](https://github.com/caarlos0/env)

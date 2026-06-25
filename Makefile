@@ -1,7 +1,5 @@
 BUILD_DIR ?= ./dist
 
-GOLANGCI_LINT_CONFIG_URL ?= https://raw.githubusercontent.com/maratori/golangci-lint-config/refs/heads/main/.golangci.yml
-
 COMPOSE_FILES ?= -f docker-compose.yml -f docker-compose.override.dev.yml
 
 .PHONY: ensure-env
@@ -17,17 +15,6 @@ check: build fmt lint check-deps
 .PHONY: install-deps
 install-deps:
 	go mod download
-
-.PHONY: update-lint-config
-update-lint-config:
-	@tmp=$$(mktemp); \
-	if curl -fsSL $(GOLANGCI_LINT_CONFIG_URL) -o "$$tmp"; then \
-		mv "$$tmp" .golangci.yaml && \
-		sed -i '' "s|github.com/my/project|github.com/hu553in/tempstream|g" .golangci.yaml; \
-	else \
-		rm -f "$$tmp"; \
-		exit 1; \
-	fi
 
 .PHONY: fmt
 fmt:
