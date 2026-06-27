@@ -9,10 +9,6 @@ formatters:
     - golines
 
   settings:
-    goimports:
-      local-prefixes:
-        - github.com/hu553in/tempstream
-
     golines:
       max-len: 120
 
