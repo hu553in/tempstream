@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 
 issues:
   max-same-issues: 50
@@ -49,6 +49,7 @@ linters:
     - gosec
     - govet
     - iface
+    - inamedparam
     - ineffassign
     - intrange
     - iotamixing
@@ -99,25 +100,27 @@ linters:
 
     depguard:
       rules:
-        "deprecated":
+        'deprecated':
           files:
-            - "$all"
+            - '$all'
           deny:
             - pkg: github.com/golang/protobuf
-              desc: Use google.golang.org/protobuf instead, see https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules
+              desc:
+                Use google.golang.org/protobuf instead, see
+                https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules
             - pkg: github.com/satori/go.uuid
               desc: Use github.com/google/uuid instead, satori's package is not maintained
             - pkg: github.com/gofrs/uuid$
               desc: Use github.com/gofrs/uuid/v5 or later, it was not a go module before v5
-        "non-test files":
+        'non-test files':
           files:
-            - "!$test"
+            - '!$test'
           deny:
             - pkg: math/rand$
               desc: Use math/rand/v2 instead, see https://go.dev/blog/randv2
-        "non-main files":
+        'non-main files':
           files:
-            - "!**/main.go"
+            - '!**/main.go'
           deny:
             - pkg: log$
               desc: Use log/slog instead, see https://go.dev/blog/slog
@@ -132,31 +135,6 @@ linters:
       check:
         - switch
         - map
-
-    exhaustruct:
-      exclude:
-        - ^net/http.Client$
-        - ^net/http.Cookie$
-        - ^net/http.Request$
-        - ^net/http.Response$
-        - ^net/http.Server$
-        - ^net/http.Transport$
-        - ^net/url.URL$
-        - ^os/exec.Cmd$
-        - ^reflect.StructField$
-        - ^github.com/Shopify/sarama.Config$
-        - ^github.com/Shopify/sarama.ProducerMessage$
-        - ^github.com/mitchellh/mapstructure.DecoderConfig$
-        - ^github.com/prometheus/client_golang/.+Opts$
-        - ^github.com/spf13/cobra.Command$
-        - ^github.com/spf13/cobra.CompletionOptions$
-        - ^github.com/stretchr/testify/mock.Mock$
-        - ^github.com/testcontainers/testcontainers-go.+Request$
-        - ^github.com/testcontainers/testcontainers-go.FromDockerfile$
-        - ^golang.org/x/tools/go/analysis.Analyzer$
-        - ^google.golang.org/protobuf/.+Options$
-        - ^gopkg.in/yaml.v3.Node$
-      allow-empty-returns: true
 
     funcorder:
       struct-method: false
@@ -213,7 +191,7 @@ linters:
       max-func-lines: 0
 
     nolintlint:
-      allow-no-explanation: [ funlen, gocognit, golines ]
+      allow-no-explanation: [funlen, gocognit]
       require-explanation: true
       require-specific: true
 
@@ -222,7 +200,7 @@ linters:
 
     reassign:
       patterns:
-        - ".*"
+        - '.*'
 
     rowserrcheck:
       packages:
@@ -243,23 +221,15 @@ linters:
       os-temp-dir: true
 
   exclusions:
-    warn-unused: true
     presets:
       - std-error-handling
       - common-false-positives
     rules:
-      - source: 'TODO'
-        linters: [ godot ]
       - text: 'should have a package comment'
-        linters: [ revive ]
-      - text: 'exported \S+ \S+ should have comment( \(or a comment on this block\))? or be unexported'
-        linters: [ revive ]
-      - text: 'package comment should be of the form ".+"'
-        source: '// ?(nolint|TODO)'
-        linters: [ revive ]
-      - text: 'comment on exported \S+ \S+ should be of the form ".+"'
-        source: '// ?(nolint|TODO)'
-        linters: [ revive, staticcheck ]
+        linters: [revive]
+      - text:
+          'exported \S+ \S+ should have comment( \(or a comment on this block\))? or be unexported'
+        linters: [revive]
       - path: '_test\.go'
         linters:
           - bodyclose
@@ -269,4 +239,3 @@ linters:
           - goconst
           - gosec
           - noctx
-          - wrapcheck

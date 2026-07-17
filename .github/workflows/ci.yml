@@ -5,49 +5,27 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - '**'
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  check:
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-      - uses: golangci/golangci-lint-action@v9
+    uses: hu553in/common-things/.github/workflows/check-go.yml@main
 
-  vulncheck:
-    runs-on: ubuntu-latest
+  docker:
     permissions:
       contents: read
-    steps:
-      - uses: golang/govulncheck-action@v1
-        with:
-          go-version-file: go.mod
+    uses: hu553in/common-things/.github/workflows/check-docker.yml@main
 
   publish:
-    if: startsWith(github.ref, 'refs/heads/main')
-    needs: [lint, vulncheck]
-    uses: hu553in/common-things/.github/workflows/build-publish-docker.yml@main
-    secrets: inherit
+    needs: [check, docker]
+    if: github.ref == 'refs/heads/main'
+    uses: hu553in/common-things/.github/workflows/build-publish-attest-docker.yml@main
     permissions:
       contents: read
-      packages: write
-    with:
-      image: ghcr.io/${{ github.repository }}
-
-  attest:
-    needs: publish
-    uses: hu553in/common-things/.github/workflows/attest-docker.yml@main
-    permissions:
       packages: write
       id-token: write
       attestations: write
     with:
       image: ghcr.io/${{ github.repository }}
-      digest: ${{ needs.publish.outputs.digest }}

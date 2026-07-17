@@ -1,0 +1,11 @@
+.git
+.github
+dist
+.env*
+*.db
+*.sqlite*
+.vscode
+.idea
+*.iml
+.DS_Store
+Thumbs.db

@@ -1,19 +1,20 @@
 logLevel: info
 
-rtmp: yes
+rtmp: true
 rtmpAddress: :1935
 
-hls: yes
+hls: true
 hlsAddress: :8888
-hlsAlwaysRemux: yes
+hlsAlwaysRemux: true
 hlsVariant: lowLatency
 hlsSegmentCount: 7
 hlsSegmentDuration: 1s
 hlsPartDuration: 200ms
 
-webrtc: no
-rtsp: no
-srt: no
+webrtc: false
+rtsp: false
+srt: false
+moq: false
 
 paths:
   live/stream:

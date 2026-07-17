@@ -1,19 +1,21 @@
 ---
 x-common: &common
   restart: unless-stopped
+  security_opt:
+    - no-new-privileges:true
   logging:
     driver: json-file
     options:
       max-size: 50m
       max-file: 4
-      compress: "true"
+      compress: 'true'
       mode: non-blocking
       max-buffer-size: 4m
 
 services:
   init-perms:
-    image: busybox
-    restart: "no"
+    image: busybox:1.38.0
+    restart: 'no'
     command: chown -R 10001:10001 /data
     volumes:
       - tempstream_data:/data
@@ -21,7 +23,7 @@ services:
   tempstream:
     <<: *common
     image: ghcr.io/hu553in/tempstream
-    user: "10001:10001"
+    user: '10001:10001'
     env_file:
       - .env
     depends_on:
@@ -32,7 +34,7 @@ services:
     volumes:
       - tempstream_data:/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/healthz"]
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8080/healthz']
       interval: 15s
       timeout: 5s
       retries: 5
@@ -40,19 +42,21 @@ services:
 
   mediamtx:
     <<: *common
-    image: bluenviron/mediamtx
+    image: bluenviron/mediamtx:1.19.2
     environment:
       MTX_AUTHINTERNALUSERS_1_USER: ${MEDIAMTX_PUBLISH_USER:?}
       MTX_AUTHINTERNALUSERS_1_PASS: ${MEDIAMTX_PUBLISH_PASSWORD:?}
     volumes:
       - ./mediamtx.yml:/mediamtx.yml:ro
     ports:
-      - "1935:1935"
-      - "8888:8888"
+      - '1935:1935'
+      - '8888:8888'
 
   caddy:
     <<: *common
-    image: caddy
+    image: caddy:2.11.4
+    environment:
+      BASE_URL: ${BASE_URL:?}
     depends_on:
       tempstream:
         condition: service_healthy
@@ -61,10 +65,10 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/healthz"]
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1/healthz']
       interval: 15s
       timeout: 5s
       retries: 10

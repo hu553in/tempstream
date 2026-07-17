@@ -4,7 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hu553in/tempstream)](https://goreportcard.com/report/github.com/hu553in/tempstream)
 [![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/hu553in/tempstream)](https://github.com/hu553in/tempstream/blob/main/go.mod)
 
-tempstream is a video access service for a single live stream.
+Go service for temporary HLS live-stream access links managed through Telegram.
 
 ## What it does
 
@@ -27,6 +27,8 @@ A typical operator flow looks like this:
 ## Requirements
 
 - Go 1.26+ for source builds
+- Golangci-lint v2 for local checks
+- Bun and [prek](https://prek.j178.dev/) for repository-wide formatting and git hooks
 - Docker and Docker Compose for the full stack
 - Telegram bot token
 - Telegram chat IDs allowed to control the bot
@@ -61,7 +63,7 @@ COOKIE_SECURE=false
 | --------------------------- | --------------------- | ------------- | ------------------------------------------------- |
 | `HTTP_ADDR`                 | No                    | `:8080`       | HTTP listen address for the Go service            |
 | `HTTP_TRUSTED_PROXY_COUNT`  | No                    | `1`           | Trusted reverse proxy count for `X-Forwarded-For` |
-| `BASE_URL`                  | Yes                   | -             | Public base URL used in generated watch links     |
+| `BASE_URL`                  | Yes                   | -             | Public base URL used in links and by Caddy        |
 | `DB_PATH`                   | No                    | `./db.sqlite` | SQLite database path                              |
 | `TELEGRAM_BOT_TOKEN`        | Yes                   | -             | Telegram bot token                                |
 | `ALLOWED_CHAT_IDS`          | Yes                   | -             | Comma-separated Telegram chat IDs                 |
@@ -88,7 +90,8 @@ make restart
 
 The Compose stack uses:
 
-- `tempstream` - Go HTTP service and Telegram bot
+- `tempstream` - Go HTTP service and Telegram bot from `ghcr.io/hu553in/tempstream`; `latest`
+  follows `main`, while `sha-*` tags are immutable
 - `mediamtx` - RTMP ingest and HLS output
 - `caddy` - public reverse proxy
 
@@ -130,7 +133,7 @@ http://HOST/live/stream/<token>
 - `/live/stream/{token}` validates the token, sets a playback cookie, and renders the watch page
 - `/play/*` validates the playback cookie again and proxies HLS traffic to MediaMTX
 - MediaMTX accepts RTMP and remuxes the stream to low-latency HLS
-- Caddy is the public entry point and reverse-proxies traffic to the Go service
+- Caddy serves `BASE_URL` and reverse-proxies traffic to the Go service
 - In Docker Compose, SQLite data lives in the `tempstream_data` volume at `/data/db.sqlite`
 - If a link expires or is disabled, playback stops and the page shows a clear error state
 
@@ -147,17 +150,24 @@ A reachable SQLite path, a Telegram bot token, and a running MediaMTX instance a
 
 ```bash
 make install-deps
-make build
+prek install
 make check
 ```
+
+Use `make check-fix` to apply formatting before running the same full gate.
 
 Focused checks:
 
 ```bash
-make fmt
 make lint
+make lint-fix
+make check-generated
 make check-deps
+make check-vulns
+make check-config
 ```
+
+`make check-config` validates both the Compose stack and its Caddyfile.
 
 Generated SQL:
 

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["gomod"],
+  "packageRules": [
+    {
+      "description": "Leave Go modules to Dependabot",
+      "matchManagers": ["gomod"],
+      "matchDatasources": ["go"],
+      "enabled": false
+    },
+    {
+      "description": "Update the Go runtime in go.mod",
+      "matchDepNames": ["go"],
+      "matchDepTypes": ["golang"],
+      "groupName": "Go runtime",
+      "rangeStrategy": "bump"
+    }
+  ]
+}

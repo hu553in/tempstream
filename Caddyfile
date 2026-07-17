@@ -1,5 +1,5 @@
-w.example.com, :80 {
-	encode gzip zstd
+{$BASE_URL}, :80 {
+	encode zstd gzip
 
 	respond /healthz "ok" 200
 
