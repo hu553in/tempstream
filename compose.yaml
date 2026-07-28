@@ -42,7 +42,7 @@ services:
 
   mediamtx:
     <<: *common
-    image: bluenviron/mediamtx:1.19.2
+    image: bluenviron/mediamtx:1.19.3
     environment:
       MTX_AUTHINTERNALUSERS_1_USER: ${MEDIAMTX_PUBLISH_USER:?}
       MTX_AUTHINTERNALUSERS_1_PASS: ${MEDIAMTX_PUBLISH_PASSWORD:?}
