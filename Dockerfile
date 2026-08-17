@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.26.5-bookworm AS builder
+FROM golang:1.26.6-bookworm AS builder
 WORKDIR /src
 
 COPY go.mod go.sum ./
@@ -20,6 +20,7 @@ FROM debian:bookworm-slim AS runner
 RUN --mount=type=cache,target=/var/cache/apt \
   --mount=type=cache,target=/var/lib/apt/lists \
   apt-get update && \
+  apt-get upgrade -y --no-install-recommends && \
   apt-get install -y --no-install-recommends \
   ca-certificates \
   curl

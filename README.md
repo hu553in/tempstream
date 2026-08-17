@@ -26,7 +26,7 @@ A typical operator flow looks like this:
 
 ## Requirements
 
-- Go 1.26+ for source builds
+- Go for source builds
 - Golangci-lint v2 for local checks
 - Bun and [prek](https://prek.j178.dev/) for repository-wide formatting and git hooks
 - Docker and Docker Compose for the full stack
