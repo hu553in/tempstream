@@ -1,7 +1,6 @@
 # tempstream
 
 [![CI](https://github.com/hu553in/tempstream/actions/workflows/ci.yml/badge.svg)](https://github.com/hu553in/tempstream/actions/workflows/ci.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/hu553in/tempstream)](https://goreportcard.com/report/github.com/hu553in/tempstream)
 [![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/hu553in/tempstream)](https://github.com/hu553in/tempstream/blob/main/go.mod)
 
 Go service for temporary HLS live-stream access links managed through Telegram.
