@@ -7,6 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
 jobs:
   check:
     permissions:
@@ -17,6 +21,8 @@ jobs:
     permissions:
       contents: read
     uses: hu553in/common-things/.github/workflows/check-docker.yml@main
+    with:
+      build: ${{ github.ref != 'refs/heads/main' }}
 
   publish:
     needs: [check, docker]

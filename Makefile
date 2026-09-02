@@ -11,7 +11,7 @@ PREK ?= prek
 
 .PHONY: ensure-build-dir
 ensure-build-dir:
-	mkdir -p $(BUILD_DIR)
+	mkdir -p -- "$(BUILD_DIR)"
 
 .PHONY: ensure-env
 ensure-env:
@@ -81,11 +81,11 @@ check-config:
 .PHONY: build
 build: ensure-build-dir install-deps
 	CGO_ENABLED=0 GOFLAGS="-buildvcs=false" \
-	go build -trimpath -ldflags="-s -w" -o $(BUILD_DIR)/tempstream ./cmd/tempstream
+	go build -trimpath -ldflags="-s -w" -o "$(BUILD_DIR)/tempstream" ./cmd/tempstream
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf -- "$(BUILD_DIR)"
 
 .PHONY: sqlc
 sqlc:
