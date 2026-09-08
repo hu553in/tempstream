@@ -42,7 +42,7 @@ services:
 
   mediamtx:
     <<: *common
-    image: bluenviron/mediamtx:1.20.0
+    image: bluenviron/mediamtx:1.21.0
     environment:
       MTX_AUTHINTERNALUSERS_1_USER: ${MEDIAMTX_PUBLISH_USER:?}
       MTX_AUTHINTERNALUSERS_1_PASS: ${MEDIAMTX_PUBLISH_PASSWORD:?}
@@ -50,7 +50,6 @@ services:
       - ./mediamtx.yml:/mediamtx.yml:ro
     ports:
       - '1935:1935'
-      - '8888:8888'
 
   caddy:
     <<: *common
