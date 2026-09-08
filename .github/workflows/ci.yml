@@ -23,6 +23,7 @@ jobs:
     uses: hu553in/common-things/.github/workflows/check-docker.yml@main
     with:
       build: ${{ github.ref != 'refs/heads/main' }}
+      no_cache_filters: runner
 
   publish:
     needs: [check, docker]
@@ -35,3 +36,4 @@ jobs:
       attestations: write
     with:
       image: ghcr.io/${{ github.repository }}
+      no_cache_filters: runner

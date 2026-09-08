@@ -87,10 +87,13 @@ make stop
 make restart
 ```
 
+These commands include `compose.override.dev.yaml` and build the local `tempstream-dev` image. To
+use the published image, pass `COMPOSE_FILES='-f compose.yaml'` to each command.
+
 The Compose stack uses:
 
-- `tempstream` - Go HTTP service and Telegram bot from `ghcr.io/hu553in/tempstream`; `latest`
-  follows `main`, while `sha-*` tags are immutable
+- `tempstream` - Go HTTP service and Telegram bot; the base Compose file uses
+  `ghcr.io/hu553in/tempstream`, where `latest` follows `main` and `sha-*` tags are immutable
 - `mediamtx` - RTMP ingest and HLS output
 - `caddy` - public reverse proxy
 
@@ -132,6 +135,7 @@ http://HOST/live/stream/<token>
 - `/live/stream/{token}` validates the token, sets a playback cookie, and renders the watch page
 - `/play/*` validates the playback cookie again and proxies HLS traffic to MediaMTX
 - MediaMTX accepts RTMP and remuxes the stream to low-latency HLS
+- MediaMTX HLS is reachable only inside the Compose network; viewers use the token-checked Go proxy
 - Caddy serves `BASE_URL` and reverse-proxies traffic to the Go service
 - In Docker Compose, SQLite data lives in the `tempstream_data` volume at `/data/db.sqlite`
 - If a link expires or is disabled, playback stops and the page shows a clear error state
