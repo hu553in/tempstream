@@ -16,10 +16,10 @@ RUN --mount=type=cache,target=/go/pkg/mod \
   CGO_ENABLED=0 GOFLAGS="-buildvcs=false" \
   go build -trimpath -ldflags="-s -w" -o /dist/tempstream ./cmd/tempstream
 
-FROM debian:bookworm-slim AS runner
+FROM debian:13-slim AS runner
 
-RUN --mount=type=cache,target=/var/cache/apt \
-  --mount=type=cache,target=/var/lib/apt/lists \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+  --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
   apt-get update && \
   apt-get upgrade -y --no-install-recommends && \
   apt-get install -y --no-install-recommends \
