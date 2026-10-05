@@ -53,7 +53,7 @@ services:
 
   caddy:
     <<: *common
-    image: caddy:2.11.4
+    image: caddy:2.11.6
     environment:
       BASE_URL: ${BASE_URL:?}
     depends_on:
