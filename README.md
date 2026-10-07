@@ -140,14 +140,18 @@ http://HOST/live/stream/<token>
 - In Docker Compose, SQLite data lives in the `tempstream_data` volume at `/data/db.sqlite`
 - If a link expires or is disabled, playback stops and the page shows a clear error state
 
-Without Docker, build only the Go service:
+Without Docker, build only the Go service. Set `DB_PATH` in `.env` to a writable local path,
+`MEDIAMTX_HLS_BASE_URL` to a separately running MediaMTX instance reachable from the host, and
+`BASE_URL` to the Go service's public address, including its port. When accessing the service
+directly without a reverse proxy, set `HTTP_TRUSTED_PROXY_COUNT=0`.
 
 ```bash
 make build
+set -a
+. ./.env
+set +a
 dist/tempstream
 ```
-
-A reachable SQLite path, a Telegram bot token, and a running MediaMTX instance are still required.
 
 ## Development
 
