@@ -4,7 +4,7 @@ go 1.27.2
 
 require (
 	github.com/caarlos0/env/v11 v11.4.1
-	github.com/go-chi/chi/v5 v5.3.2
+	github.com/go-chi/chi/v5 v5.4.0
 	github.com/go-telegram/bot v1.27.0
 	github.com/pressly/goose/v3 v3.29.0
 	modernc.org/sqlite v1.60.1
@@ -39,7 +39,7 @@ require (
 	github.com/pingcap/errors v0.11.5-0.20260523003111-3697ad564b43 // indirect
 	github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b // indirect
 	github.com/pingcap/log v1.1.0 // indirect
-	github.com/pingcap/tidb/pkg/parser v0.0.0-20261010115534-788ad51619dd // indirect
+	github.com/pingcap/tidb/pkg/parser v0.0.0-20261012132229-06441e2a681d // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/riza-io/grpc-go v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
