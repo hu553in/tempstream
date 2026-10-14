@@ -22,18 +22,18 @@ jobs:
       contents: read
     uses: hu553in/common-things/.github/workflows/check-docker.yml@main
     with:
-      build: ${{ github.ref != 'refs/heads/main' }}
       no_cache_filters: runner
+      build: ${{ github.ref != 'refs/heads/main' }}
 
   publish:
     needs: [check, docker]
     if: github.ref == 'refs/heads/main'
-    uses: hu553in/common-things/.github/workflows/build-publish-attest-docker.yml@main
     permissions:
-      contents: read
-      packages: write
-      id-token: write
       attestations: write
+      contents: read
+      id-token: write
+      packages: write
+    uses: hu553in/common-things/.github/workflows/build-publish-attest-docker.yml@main
     with:
       image: ghcr.io/${{ github.repository }}
       no_cache_filters: runner

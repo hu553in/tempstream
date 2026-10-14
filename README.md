@@ -27,7 +27,7 @@ A typical operator flow looks like this:
 
 - Go for source builds
 - Golangci-lint v2 for local checks
-- Bun and [prek](https://prek.j178.dev/) for repository-wide formatting and git hooks
+- Make, Bun, and [prek](https://prek.j178.dev/) for repository tooling
 - Docker and Docker Compose for the full stack
 - Telegram bot token
 - Telegram chat IDs allowed to control the bot
@@ -48,8 +48,8 @@ Fill in these values in `.env`:
 - `MEDIAMTX_PUBLISH_USER`
 - `MEDIAMTX_PUBLISH_PASSWORD`
 
-For phone access on the same Wi-Fi, set `BASE_URL` to the machine's LAN IP and disable secure
-cookies for local HTTP:
+Set `COOKIE_SECURE=true` for HTTPS deployments. For phone access on the same Wi-Fi, set `BASE_URL`
+to the machine's LAN IP and disable secure cookies for local HTTP:
 
 ```env
 BASE_URL=http://192.168.1.42
@@ -88,12 +88,22 @@ make restart
 ```
 
 These commands include `compose.override.dev.yaml` and build the local `tempstream-dev` image. To
-use the published image, pass `COMPOSE_FILES='-f compose.yaml'` to each command.
+use the published stack:
+
+```bash
+docker compose -f compose.yaml pull
+make start COMPOSE_FILES='-f compose.yaml'
+```
+
+Pass `COMPOSE_FILES='-f compose.yaml'` to `make stop` and `make restart` too.
+
+`latest` follows `main`; `sha-*` tags identify commits. Pin
+`ghcr.io/hu553in/tempstream@sha256:<digest>` in `compose.yaml` for an immutable deployment.
 
 The Compose stack uses:
 
 - `tempstream` - Go HTTP service and Telegram bot; the base Compose file uses
-  `ghcr.io/hu553in/tempstream`, where `latest` follows `main` and `sha-*` tags are immutable
+  `ghcr.io/hu553in/tempstream`
 - `mediamtx` - RTMP ingest and HLS output
 - `caddy` - public reverse proxy
 
@@ -168,10 +178,13 @@ Focused checks:
 ```bash
 make lint
 make lint-fix
+make check-hooks
 make check-generated
 make check-deps
 make check-vulns
 make check-config
+make check-renovate
+make check-workflows
 ```
 
 `make check-config` validates both the Compose stack and its Caddyfile.

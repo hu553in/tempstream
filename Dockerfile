@@ -20,9 +20,9 @@ FROM debian:13-slim AS runner
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
   --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
-  apt-get update && \
-  apt-get upgrade -y --no-install-recommends && \
-  apt-get install -y --no-install-recommends \
+  apt-get update \
+  && apt-get upgrade -y --no-install-recommends \
+  && apt-get install -y --no-install-recommends \
   ca-certificates \
   curl
 
