@@ -7,7 +7,7 @@ require (
 	github.com/go-chi/chi/v5 v5.5.0
 	github.com/go-telegram/bot v1.27.0
 	github.com/pressly/goose/v3 v3.29.0
-	modernc.org/sqlite v1.60.1
+	modernc.org/sqlite v1.61.0
 )
 
 require (
