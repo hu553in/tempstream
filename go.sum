@@ -83,8 +83,8 @@ github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b h1:5qoDlNwsxDoWU
 github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b/go.mod h1:jimwlLpI/XtwQdlZML15HS+j4rirvwZM0GLY07wwgOo=
 github.com/pingcap/log v1.1.0 h1:ELiPxACz7vdo1qAvvaWJg1NrYFoY6gqAh/+Uo6aXdD8=
 github.com/pingcap/log v1.1.0/go.mod h1:DWQW5jICDR7UJh4HtxXSM20Churx4CQL0fwL/SoOSA4=
-github.com/pingcap/tidb/pkg/parser v0.0.0-20261026192720-7fa5afdeb841 h1:UAAKhU0rMdtsOxwScIKjyhIB8aD2W0+3TijbIvI34q4=
-github.com/pingcap/tidb/pkg/parser v0.0.0-20261026192720-7fa5afdeb841/go.mod h1:YXpaDltOQJ+5wGbVvVO697axnkRkY82FxsUrNmT84JA=
+github.com/pingcap/tidb/pkg/parser v0.0.0-20261027042602-8c92bcda87f4 h1:HNttR7Kzw9EKqyDWEt756fphzRhwYJIWZQR0i9hV8bA=
+github.com/pingcap/tidb/pkg/parser v0.0.0-20261027042602-8c92bcda87f4/go.mod h1:YXpaDltOQJ+5wGbVvVO697axnkRkY82FxsUrNmT84JA=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
@@ -119,8 +119,8 @@ github.com/tailscale/hujson v0.0.0-20221223112325-20486734a56a h1:SJy1Pu0eH1C29X
 github.com/tailscale/hujson v0.0.0-20221223112325-20486734a56a/go.mod h1:DFSS3NAGHthKo1gTlmEcSBiZrRJXi28rLNd/1udP1c8=
 github.com/tetratelabs/wazero v1.12.0 h1:DuWcpNu/FzgEXgGBDp8J1Spc+CWOvvtvVyjKlaZopYU=
 github.com/tetratelabs/wazero v1.12.0/go.mod h1:LvKtzl2RqO4gyF27BiXU+nKAjcV8f38U+kP/q2vgxh0=
-github.com/wasilibs/go-pgquery v0.0.0-20261020014038-c50e9f18754b h1:PvGOsvVnm8mTRI56z6ByFz8uEsBgw20JGnFJckiP4HY=
-github.com/wasilibs/go-pgquery v0.0.0-20261020014038-c50e9f18754b/go.mod h1:HQrmSEL6Ds3tzmX3jqVpKUzdZnFt3OZPtTfQ4HObOik=
+github.com/wasilibs/go-pgquery v0.0.0-20261027025405-3048dd293555 h1:aBMNXPjZKwRTB8QRa2/w3W6IXAtwv5aZTG9BiLyouMg=
+github.com/wasilibs/go-pgquery v0.0.0-20261027025405-3048dd293555/go.mod h1:HQrmSEL6Ds3tzmX3jqVpKUzdZnFt3OZPtTfQ4HObOik=
 github.com/wasilibs/wazero-helpers v0.0.0-20250123031827-cd30c44769bb h1:gQ+ZV4wJke/EBKYciZ2MshEouEHFuinB85dY3f5s1q8=
 github.com/wasilibs/wazero-helpers v0.0.0-20250123031827-cd30c44769bb/go.mod h1:jMeV4Vpbi8osrE/pKUxRZkVaA0EX7NZN0A9/oRzgpgY=
 go.uber.org/atomic v1.7.0/go.mod h1:fEN4uk6kAWBTFdckzkM89CLk9XfWZrxpCo0nPH17wJc=
