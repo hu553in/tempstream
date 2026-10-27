@@ -39,7 +39,7 @@ require (
 	github.com/pingcap/errors v0.11.5-0.20261026075545-a34ae5ed13c8 // indirect
 	github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b // indirect
 	github.com/pingcap/log v1.1.0 // indirect
-	github.com/pingcap/tidb/pkg/parser v0.0.0-20261026192720-7fa5afdeb841 // indirect
+	github.com/pingcap/tidb/pkg/parser v0.0.0-20261027042602-8c92bcda87f4 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/riza-io/grpc-go v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
@@ -49,7 +49,7 @@ require (
 	github.com/sqlc-dev/doubleclick v1.0.0 // indirect
 	github.com/sqlc-dev/sqlc v1.31.1 // indirect
 	github.com/tetratelabs/wazero v1.12.0 // indirect
-	github.com/wasilibs/go-pgquery v0.0.0-20261020014038-c50e9f18754b // indirect
+	github.com/wasilibs/go-pgquery v0.0.0-20261027025405-3048dd293555 // indirect
 	github.com/wasilibs/wazero-helpers v0.0.0-20250123031827-cd30c44769bb // indirect
 	go.uber.org/atomic v1.12.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
