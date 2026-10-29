@@ -66,10 +66,10 @@ github.com/mattn/go-isatty v0.0.24 h1:tGZZoVgT/KiqK1c8ocVLeDS8BSWMRd47J3Lbz7vsRe
 github.com/mattn/go-isatty v0.0.24/go.mod h1:nMCL3Zebbrt45jsMDgnfIwz6ydEQApk5oEI3HqDio6A=
 github.com/mfridman/interpolate v0.0.2 h1:pnuTK7MQIxxFz1Gr+rjSIx9u7qVjf5VOoM/u6BbAxPY=
 github.com/mfridman/interpolate v0.0.2/go.mod h1:p+7uk6oE07mpE/Ik1b8EckO0O4ZXiGAfshKBWLUM9Xg=
-github.com/ncruces/go-sqlite3 v0.35.6 h1:0JGlMne89YzKNP2CJBuiH21EEzSQNuB7pfvCbKBn0Jg=
-github.com/ncruces/go-sqlite3 v0.35.6/go.mod h1:6MfWBOFbHJVSJxmTCIUKCJdLl4TKkgO895RHerlDVo8=
-github.com/ncruces/go-sqlite3-wasm/v6 v6.3.35401 h1:oaZQ/7pA15HbXFZygnqJ8P/2fy10DG0ExWNm2KiJDuI=
-github.com/ncruces/go-sqlite3-wasm/v6 v6.3.35401/go.mod h1:KG11ycVocsrsZ6OoNm4j2T7SKyzb/6ELHo0M+bAX50A=
+github.com/ncruces/go-sqlite3 v0.36.0 h1:/tmetPB+789WApzUWWfXVlDRtraPKil2iopXlQbET4A=
+github.com/ncruces/go-sqlite3 v0.36.0/go.mod h1:HhzaJ0fX5RHXe+09Nfz7pKiNuJVexXTAqX0/gNmA06w=
+github.com/ncruces/go-sqlite3-wasm/v6 v6.4.35401 h1:CJ7ClSmm84xWaefcVSbiMlU3luCiMfC/eJ0vaPntbhQ=
+github.com/ncruces/go-sqlite3-wasm/v6 v6.4.35401/go.mod h1:KG11ycVocsrsZ6OoNm4j2T7SKyzb/6ELHo0M+bAX50A=
 github.com/ncruces/go-strftime v1.1.0 h1:vtPmPWMkb539RGV9WpWT9EwJGvrOCKvMNI4obWL47Hk=
 github.com/ncruces/go-strftime v1.1.0/go.mod h1:yVaq7iwCN09vHRrKBrrflXT0M9tTMG2KmZ9Fj7xeG/g=
 github.com/ncruces/julianday v1.0.0 h1:fH0OKwa7NWvniGQtxdJRxAgkBMolni2BjDHaWTxqt7M=
@@ -83,8 +83,8 @@ github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b h1:5qoDlNwsxDoWU
 github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b/go.mod h1:jimwlLpI/XtwQdlZML15HS+j4rirvwZM0GLY07wwgOo=
 github.com/pingcap/log v1.1.0 h1:ELiPxACz7vdo1qAvvaWJg1NrYFoY6gqAh/+Uo6aXdD8=
 github.com/pingcap/log v1.1.0/go.mod h1:DWQW5jICDR7UJh4HtxXSM20Churx4CQL0fwL/SoOSA4=
-github.com/pingcap/tidb/pkg/parser v0.0.0-20261028213218-87ffb1fda613 h1:Mp6Z3Wz2NpTk7a/yEoVtpfYCFv3cWPw4L2G9pj1oyNU=
-github.com/pingcap/tidb/pkg/parser v0.0.0-20261028213218-87ffb1fda613/go.mod h1:YXpaDltOQJ+5wGbVvVO697axnkRkY82FxsUrNmT84JA=
+github.com/pingcap/tidb/pkg/parser v0.0.0-20261029161554-9f32fa65d03a h1:IvVZFmpo1ewBFYk1dLWXVnM8tIKuUNDoev0ye43YuU8=
+github.com/pingcap/tidb/pkg/parser v0.0.0-20261029161554-9f32fa65d03a/go.mod h1:YXpaDltOQJ+5wGbVvVO697axnkRkY82FxsUrNmT84JA=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
