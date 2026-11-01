@@ -23,7 +23,6 @@ jobs:
     uses: hu553in/common-things/.github/workflows/check-docker.yml@main
     with:
       no_cache_filters: runner
-      build: ${{ github.ref != 'refs/heads/main' }}
 
   publish:
     needs: [check, docker]
