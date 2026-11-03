@@ -68,8 +68,8 @@ github.com/mfridman/interpolate v0.0.2 h1:pnuTK7MQIxxFz1Gr+rjSIx9u7qVjf5VOoM/u6B
 github.com/mfridman/interpolate v0.0.2/go.mod h1:p+7uk6oE07mpE/Ik1b8EckO0O4ZXiGAfshKBWLUM9Xg=
 github.com/ncruces/go-sqlite3 v0.36.0 h1:/tmetPB+789WApzUWWfXVlDRtraPKil2iopXlQbET4A=
 github.com/ncruces/go-sqlite3 v0.36.0/go.mod h1:HhzaJ0fX5RHXe+09Nfz7pKiNuJVexXTAqX0/gNmA06w=
-github.com/ncruces/go-sqlite3-wasm/v6 v6.4.35401 h1:CJ7ClSmm84xWaefcVSbiMlU3luCiMfC/eJ0vaPntbhQ=
-github.com/ncruces/go-sqlite3-wasm/v6 v6.4.35401/go.mod h1:KG11ycVocsrsZ6OoNm4j2T7SKyzb/6ELHo0M+bAX50A=
+github.com/ncruces/go-sqlite3-wasm/v6 v6.5.35401 h1:GM27MxQNSRvqi44IYsZANqQKGonIRjUcPojI67RJfq4=
+github.com/ncruces/go-sqlite3-wasm/v6 v6.5.35401/go.mod h1:zeroyGPjT3/xj22bhcPdlFLSYugMoi74v+aISTwWrtM=
 github.com/ncruces/go-strftime v1.1.0 h1:vtPmPWMkb539RGV9WpWT9EwJGvrOCKvMNI4obWL47Hk=
 github.com/ncruces/go-strftime v1.1.0/go.mod h1:yVaq7iwCN09vHRrKBrrflXT0M9tTMG2KmZ9Fj7xeG/g=
 github.com/ncruces/julianday v1.0.0 h1:fH0OKwa7NWvniGQtxdJRxAgkBMolni2BjDHaWTxqt7M=
@@ -77,8 +77,8 @@ github.com/ncruces/julianday v1.0.0/go.mod h1:Dusn2KvZrrovOMJuOt0TNXL6tB7U2E8kvz
 github.com/pganalyze/pg_query_go/v6 v6.2.5 h1:i7dvkA5167th3rXtk0jv9+r5DeJd4GqeGOVKuMTda8s=
 github.com/pganalyze/pg_query_go/v6 v6.2.5/go.mod h1:JZoURQupTV7G8lS6OzKakgvp+xpwu7+dH5kA5WrikzM=
 github.com/pingcap/errors v0.11.0/go.mod h1:Oi8TUi2kEtXXLMJk9l1cGmz20kV3TaQ0usTwv5KuLY8=
-github.com/pingcap/errors v0.11.5-0.20261026075545-a34ae5ed13c8 h1:M5kd6jdlBmatjxAQcKaW5SayO3hL+geA4xIBh0xIDLk=
-github.com/pingcap/errors v0.11.5-0.20261026075545-a34ae5ed13c8/go.mod h1:tVRzr+4mfl9tTf5ej2+EzV8xmrYWamB0iNZ5d2i2QsQ=
+github.com/pingcap/errors v0.11.5-0.20261103175354-b56e68721cc1 h1:SWi/qKYgMbUqphD2mTbU78n2Gs43lfHeAtSiotojkec=
+github.com/pingcap/errors v0.11.5-0.20261103175354-b56e68721cc1/go.mod h1:tVRzr+4mfl9tTf5ej2+EzV8xmrYWamB0iNZ5d2i2QsQ=
 github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b h1:5qoDlNwsxDoWUkY0sMmsCcxs/Oi+UNCAI6x4ls9r2nA=
 github.com/pingcap/failpoint v0.0.0-20260811232634-55ac33a48e3b/go.mod h1:jimwlLpI/XtwQdlZML15HS+j4rirvwZM0GLY07wwgOo=
 github.com/pingcap/log v1.1.0 h1:ELiPxACz7vdo1qAvvaWJg1NrYFoY6gqAh/+Uo6aXdD8=
