@@ -4,7 +4,6 @@ BUILD_DIR ?= ./dist
 
 COMPOSE_FILES ?= -f compose.yaml -f compose.override.dev.yaml
 
-PRETTIER := bunx prettier -u
 ACTIONLINT := bunx github-actionlint
 TAPLO := bunx @taplo/cli
 PREK ?= prek
@@ -23,14 +22,14 @@ install-deps:
 
 .PHONY: lint
 lint:
-	$(PRETTIER) -c .
+	bun fmt --check
 	$(TAPLO) fmt --check
 	golangci-lint fmt --diff
 	golangci-lint run
 
 .PHONY: lint-fix
 lint-fix:
-	$(PRETTIER) -w .
+	bun fmt
 	$(TAPLO) fmt
 	golangci-lint fmt
 	golangci-lint run --fix
