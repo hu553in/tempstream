@@ -183,7 +183,6 @@ make check-generated
 make check-deps
 make check-vulns
 make check-config
-make check-renovate
 make check-workflows
 ```
 

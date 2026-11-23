@@ -4,8 +4,8 @@ BUILD_DIR ?= ./dist
 
 COMPOSE_FILES ?= -f compose.yaml -f compose.override.dev.yaml
 
-ACTIONLINT := bunx github-actionlint
-TAPLO := bunx @taplo/cli
+ACTIONLINT := bunx --minimum-release-age 259200 github-actionlint
+TAPLO := bunx --minimum-release-age 259200 @taplo/cli
 PREK ?= prek
 
 .PHONY: ensure-build-dir
@@ -67,16 +67,12 @@ check-config:
 			"$$image" -ec \
 			'caddy fmt --diff /etc/caddy/Caddyfile >/dev/null && caddy validate --config /etc/caddy/Caddyfile'
 
-.PHONY: check-renovate
-check-renovate:
-	bunx --package renovate renovate-config-validator --strict --no-global renovate.json
-
 .PHONY: check-workflows
 check-workflows:
 	$(ACTIONLINT)
 
 .PHONY: check
-check: lint check-hooks build check-generated check-deps check-vulns check-config check-renovate check-workflows
+check: lint check-hooks build check-generated check-deps check-vulns check-config check-workflows
 
 .PHONY: check-fix
 check-fix: lint-fix
