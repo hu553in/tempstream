@@ -25,9 +25,9 @@ A typical operator flow looks like this:
 
 ## Requirements
 
-- Go for source builds
+- Go at the version declared in [`go.mod`](go.mod) or newer for source builds
 - Golangci-lint v2 for local checks
-- Make, Bun, and [prek](https://prek.j178.dev/) for repository tooling
+- Make and Bun for repository tooling
 - Docker and Docker Compose for the full stack
 - Telegram bot token
 - Telegram chat IDs allowed to control the bot
@@ -87,8 +87,8 @@ make stop
 make restart
 ```
 
-These commands include `compose.override.dev.yaml` and build the local `tempstream-dev` image. To
-use the published stack:
+These commands include `compose.override.dev.yaml`. `make start` and `make restart` build the local
+`tempstream-dev` image. To use the published stack:
 
 ```bash
 docker compose -f compose.yaml pull
@@ -99,6 +99,9 @@ Pass `COMPOSE_FILES='-f compose.yaml'` to `make stop` and `make restart` too.
 
 `latest` follows `main`; `sha-*` tags identify commits. Pin
 `ghcr.io/hu553in/tempstream@sha256:<digest>` in `compose.yaml` for an immutable deployment.
+
+Manual CI runs check the image by default. To publish manually, run CI on `main` with `publish`
+enabled.
 
 The Compose stack uses:
 
@@ -165,9 +168,11 @@ dist/tempstream
 
 ## Development
 
+Start Docker before running `make check` or `make check-fix`. The configuration check runs Caddy in
+a temporary container.
+
 ```bash
-make install-deps
-prek install
+bunx lefthook install
 make check
 ```
 

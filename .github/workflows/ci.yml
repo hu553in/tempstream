@@ -6,9 +6,16 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the Docker image
+        type: boolean
+        default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: >-
+    ${{ github.workflow }}-${{ github.ref }}${{ github.event_name == 'workflow_dispatch' &&
+    !inputs.publish && '-check' || '' }}
   cancel-in-progress: ${{ github.ref_type != 'tag' }}
 
 jobs:
@@ -22,11 +29,14 @@ jobs:
       contents: read
     uses: hu553in/common-things/.github/workflows/check-docker.yml@main
     with:
+      build_default_branch: ${{ github.event_name == 'workflow_dispatch' && !inputs.publish }}
       no_cache_filters: runner
 
   publish:
     needs: [check, docker]
-    if: github.ref == 'refs/heads/main'
+    if: >-
+      github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name ==
+      'workflow_dispatch' && inputs.publish))
     permissions:
       attestations: write
       contents: read

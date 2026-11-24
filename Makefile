@@ -5,16 +5,10 @@ BUILD_DIR ?= ./dist
 COMPOSE_FILES ?= -f compose.yaml -f compose.override.dev.yaml
 
 ACTIONLINT := bunx --minimum-release-age 259200 github-actionlint
-TAPLO := bunx --minimum-release-age 259200 @taplo/cli
-PREK ?= prek
-
-.PHONY: ensure-build-dir
-ensure-build-dir:
-	mkdir -p -- "$(BUILD_DIR)"
 
 .PHONY: ensure-env
 ensure-env:
-	if [ ! -f .env ]; then cp .env.example .env; fi
+	if [ ! -e .env ] && [ ! -L .env ]; then (umask 077 && cp .env.example .env); fi
 
 .PHONY: install-deps
 install-deps:
@@ -23,23 +17,21 @@ install-deps:
 .PHONY: lint
 lint:
 	bun fmt --check
-	$(TAPLO) fmt --check
 	golangci-lint fmt --diff
 	golangci-lint run
 
 .PHONY: lint-fix
 lint-fix:
 	bun fmt
-	$(TAPLO) fmt
 	golangci-lint fmt
 	golangci-lint run --fix
 
 .PHONY: check-hooks
 check-hooks:
-	$(PREK) validate-config prek.toml
+	bunx --minimum-release-age 259200 lefthook validate
 
 .PHONY: build
-build: ensure-build-dir install-deps
+build:
 	CGO_ENABLED=0 GOFLAGS="-buildvcs=false" \
 	go build -trimpath -ldflags="-s -w" -o "$(BUILD_DIR)/tempstream" ./cmd/tempstream
 
@@ -58,9 +50,9 @@ check-vulns: install-deps
 
 .PHONY: check-config
 check-config:
-	docker compose $(COMPOSE_FILES) config --quiet --no-interpolate --no-env-resolution
-	@image=$$(docker compose -f compose.yaml config --images --no-interpolate --no-env-resolution | grep '^caddy:' | head -1); \
-		test -n "$$image"; \
+	@config=$$(docker compose --env-file /dev/null $(COMPOSE_FILES) config --format json --no-interpolate --no-env-resolution) && \
+		image=$$(printf '%s\n' "$$config" | bun -e 'console.log((await Bun.stdin.json()).services.caddy?.image ?? "")') && \
+		test -n "$$image" && \
 		docker run --rm --network none --entrypoint /bin/sh \
 			-e BASE_URL=tempstream.example.com \
 			-v "$(CURDIR)/Caddyfile:/etc/caddy/Caddyfile:ro" \
@@ -80,7 +72,7 @@ check-fix: lint-fix
 
 .PHONY: clean
 clean:
-	rm -rf -- "$(BUILD_DIR)"
+	test -z "$(BUILD_DIR)" || rm -f -- "$(BUILD_DIR)/tempstream"
 
 .PHONY: sqlc
 sqlc:
@@ -97,4 +89,5 @@ stop: ensure-env
 	down --remove-orphans
 
 .PHONY: restart
-restart: stop start
+restart: stop
+	$(MAKE) start
